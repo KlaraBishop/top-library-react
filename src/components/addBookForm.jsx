@@ -35,7 +35,7 @@ const AddBookForm = (props) => {
       <input id='author' type='text' value={Author} onChange={e => setAuthor(e.target.value)} />
     </label>
     <label>
-      Book:
+      Game:
       <input id='game' type='text' value={Game} onChange={e => setGame(e.target.value)} />
     </label>
     <input id='submit' type='submit' value={'Add Book'} onClick={e => onSubmit(e)}/>
