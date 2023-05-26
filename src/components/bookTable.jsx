@@ -1,0 +1,28 @@
+import PropTypes from 'prop-types';
+
+const BookTable = (props) => {
+    BookTable.propTypes = {
+      bookList: PropTypes.array.isRequired,
+    };
+  
+    return <table className='book-table'>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Author</th>
+          <th>Game</th>
+        </tr>
+      </thead>
+      <tbody>
+        {props.bookList.map(book => {
+          return <tr key={book.name}> 
+              <td>{book.name}</td>
+              <td>{book.author}</td>
+              <td>{book.game}</td>
+            </tr>
+        })}
+      </tbody>
+  </table>
+  }
+
+export default BookTable;
