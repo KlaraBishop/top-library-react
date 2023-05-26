@@ -1,6 +1,7 @@
 import './stylesheets/App.css'
 import library from './data/library.json'
 import { useState } from 'react';
+import BookTable from './components/bookTable';
 
 const CreateBook = (name, author, game) => {
   return { name, author, game }
@@ -24,25 +25,7 @@ function App() {
 
   return (
     <>
-      <table className='book-table'>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Author</th>
-            <th>Game</th>
-          </tr>
-        </thead>
-        <tbody>
-          {BookList.map(book => {
-            return <tr key={book.name}> 
-                <td>{book.name}</td>
-                <td>{book.author}</td>
-                <td>{book.game}</td>
-              </tr>
-          })}
-        </tbody>
-      </table>
-
+      <BookTable bookList={BookList} />
       <form>
         <label>
           Book:
