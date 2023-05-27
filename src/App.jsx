@@ -8,10 +8,11 @@ function App() {
   const [BookList, setBookList] = useState([]);
 
   const addBook = (book) => {
-    setBookList(() => [...BookList, book])
+    const lastBook = BookList.slice(-1)
+    
+    setBookList(() => [...BookList, {...book, "id": lastBook[0].id++}])
 
     axios.post('http://localhost:3000/books', book)
-    .then(response => console.log(response))
   }
 
   const deleteBook = (id) => {
