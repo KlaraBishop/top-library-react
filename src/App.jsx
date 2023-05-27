@@ -14,13 +14,19 @@ function App() {
     .then(response => console.log(response))
   }
 
+  const deleteBook = (id) => {
+    setBookList(() => BookList.filter(book => book.id !== id))
+
+    axios.delete(`http://localhost:3000/books/${id}`)
+  }
+
   useEffect (() => {
     axios.get('http://localhost:3000/books')
     .then(response => setBookList(response.data))
   },[])
 
   return <>
-      <BookTable bookList={BookList} />
+      <BookTable bookList={BookList} deleteClick={deleteBook} />
       <AddBookForm addBook={addBook} />
     </>
 }

@@ -1,43 +1,51 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 
-const CreateBook = (name, author, game) => {
-  return { name, author, game }
+const CreateBook = ({BookName, Author, Game}) => {
+  return { "name": BookName, "author": Author, "game": Game }
+}
+
+const TextInput = (props) => {
+  TextInput.propTypes = {
+    label: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired,
+    handleChange: PropTypes.func.isRequired,
+  }
+
+  return <>
+    <label>
+      {props.label}
+      <input id={props.id} type='text' value={props.value} onChange={e => props.handleChange(e)} />
+    </label>
+  </>
 }
 
 const AddBookForm = (props) => { 
   AddBookForm.propTypes = {
     addBook: PropTypes.func.isRequired,
-  };
+  }
 
-  const [BookName, setBookName] = useState('');
-  const [Author, setAuthor] = useState('');
-  const [Game, setGame] = useState('');
+  const [inputs, setInputs] = useState(() => ({ "BookName": '', "Author": '', "Game": ''}))
+  
+  const handleChange = (event) => {
+    const name = event.target.id
+    const value = event.target.value
+
+    setInputs(inputs => ({...inputs, [name]: value}))
+  }
 
   const onSubmit = (e) => {
     e.preventDefault()
 
-    const newBook = CreateBook(BookName, Author, Game)
+    const newBook = CreateBook(inputs)
     props.addBook(newBook)
-
-    setBookName('')
-    setAuthor('')
-    setGame('')
   }
 
   return <form>
-    <label>
-      Book:
-      <input id='bookName' type='text' value={BookName} onChange={e => setBookName(e.target.value)} />
-    </label>
-    <label>
-      Author:
-      <input id='author' type='text' value={Author} onChange={e => setAuthor(e.target.value)} />
-    </label>
-    <label>
-      Book:
-      <input id='game' type='text' value={Game} onChange={e => setGame(e.target.value)} />
-    </label>
+    <TextInput id='BookName' label='Book: ' value={inputs.BookName} handleChange={handleChange} />
+    <TextInput id='Author' label='Author: ' value={inputs.Author} handleChange={handleChange} />
+    <TextInput id='Game' label='Game: ' value={inputs.Game} handleChange={handleChange} />
     <input id='submit' type='submit' value={'Add Book'} onClick={e => onSubmit(e)}/>
   </form>
 }
