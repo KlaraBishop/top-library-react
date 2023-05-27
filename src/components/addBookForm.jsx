@@ -5,10 +5,26 @@ const CreateBook = ({BookName, Author, Game}) => {
   return { "name": BookName, "author": Author, "game": Game }
 }
 
+const TextInput = (props) => {
+  TextInput.propTypes = {
+    label: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired,
+    handleChange: PropTypes.func.isRequired,
+  }
+
+  return <>
+    <label>
+      {props.label}
+      <input id={props.id} type='text' value={props.value} onChange={e => props.handleChange(e)} />
+    </label>
+  </>
+}
+
 const AddBookForm = (props) => { 
   AddBookForm.propTypes = {
     addBook: PropTypes.func.isRequired,
-  };
+  }
 
   const [inputs, setInputs] = useState(() => ({ "BookName": '', "Author": '', "Game": ''}))
   
@@ -27,18 +43,9 @@ const AddBookForm = (props) => {
   }
 
   return <form>
-    <label>
-      Book:
-      <input id='BookName' type='text' value={inputs.BookName} onChange={handleChange} />
-    </label>
-    <label>
-      Author:
-      <input id='Author' type='text' value={inputs.Author} onChange={handleChange} />
-    </label>
-    <label>
-      Game:
-      <input id='Game' type='text' value={inputs.Game} onChange={handleChange} />
-    </label>
+    <TextInput id='BookName' label='Book: ' value={inputs.BookName} handleChange={handleChange} />
+    <TextInput id='Author' label='Author: ' value={inputs.Author} handleChange={handleChange} />
+    <TextInput id='Game' label='Game: ' value={inputs.Game} handleChange={handleChange} />
     <input id='submit' type='submit' value={'Add Book'} onClick={e => onSubmit(e)}/>
   </form>
 }
