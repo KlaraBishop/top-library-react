@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 
-const CreateBook = (name, author, game) => {
-  return { name, author, game }
+const CreateBook = ({BookName, Author, Game}) => {
+  return { "name": BookName, "author": Author, "game": Game }
 }
 
 const AddBookForm = (props) => { 
@@ -10,33 +10,34 @@ const AddBookForm = (props) => {
     addBook: PropTypes.func.isRequired,
   };
 
-  const [BookName, setBookName] = useState('');
-  const [Author, setAuthor] = useState('');
-  const [Game, setGame] = useState('');
+  const [inputs, setInputs] = useState(() => ({ "BookName": '', "Author": '', "Game": ''}))
+  
+  const handleChange = (event) => {
+    const name = event.target.id
+    const value = event.target.value
+
+    setInputs(inputs => ({...inputs, [name]: value}))
+  }
 
   const onSubmit = (e) => {
     e.preventDefault()
 
-    const newBook = CreateBook(BookName, Author, Game)
+    const newBook = CreateBook(inputs)
     props.addBook(newBook)
-
-    setBookName('')
-    setAuthor('')
-    setGame('')
   }
 
   return <form>
     <label>
       Book:
-      <input id='bookName' type='text' value={BookName} onChange={e => setBookName(e.target.value)} />
+      <input id='BookName' type='text' value={inputs.BookName} onChange={handleChange} />
     </label>
     <label>
       Author:
-      <input id='author' type='text' value={Author} onChange={e => setAuthor(e.target.value)} />
+      <input id='Author' type='text' value={inputs.Author} onChange={handleChange} />
     </label>
     <label>
       Game:
-      <input id='game' type='text' value={Game} onChange={e => setGame(e.target.value)} />
+      <input id='Game' type='text' value={inputs.Game} onChange={handleChange} />
     </label>
     <input id='submit' type='submit' value={'Add Book'} onClick={e => onSubmit(e)}/>
   </form>
